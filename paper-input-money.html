@@ -1,0 +1,74 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html" />
+
+<!--
+`<paper-input-money>` is a single-line text field with Material Design styling.  It extends the Polymer 2 element `<paper-input>`.
+
+    <paper-input-money label="Input label"
+					   always-float-label
+					   required
+					   currency-value="{{currValue}}"></paper-input>
+
+The prefix and pattern are predetermined (only USD for right now).  To get the numeric value of the input, bind to the custom `currencyValue` property.  (The `value` field from the PaperInput superclass will always be of type String.)
+
+The input mask is applied during the "blur" event on the input.
+-->
+
+<dom-module id="paper-input-money">
+    <template>
+        <style>
+            :host {
+                display: block;
+                text-align: right;
+            }
+        </style>
+    </template>
+    <script>
+
+        let memoizedTemplate;
+
+        class PaperInputMoney extends customElements.get('paper-input') {
+
+            static get template() {
+                if (!memoizedTemplate) {
+                    memoizedTemplate = Polymer.DomModule.import(this.is, 'template');
+
+                    let superTemplateContents = document.importNode(customElements.get('paper-input').template.content, true);
+                    let prefixSlot = superTemplateContents.querySelector('[slot="prefix"]');
+                    prefixSlot.textContent = '$';
+
+                    memoizedTemplate.content.appendChild(superTemplateContents);
+                }
+
+                return memoizedTemplate;
+            }
+
+            static get is() { return 'paper-input-money'; }
+
+            static get properties() {
+                return {
+                    'currencyValue': {
+                        type: Number,
+                        notify: true
+                    }
+                }
+            }
+
+            ready() {
+                super.ready();
+                this.setProperties({ 'allowedPattern': '[0-9\.\,\=]', 'value': '0.00' });
+                this.onblur = this.handleOnFocusOut;
+            }
+
+            handleOnFocusOut(e) {
+                if (typeof this.value === 'undefined' || this.value == null) {
+                    this.set('value', '0.00');
+                }
+                let computedValue = parseFloat(this.value);
+                this.setProperties({ 'value': computedValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }), 'currencyValue': computedValue });
+            }
+        }
+
+        customElements.define(PaperInputMoney.is, PaperInputMoney);
+    </script>
+</dom-module>
