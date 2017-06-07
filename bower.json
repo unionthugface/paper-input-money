@@ -3,7 +3,8 @@
   "description": "paper-input-money is a Polymer 2 input for displaying currency with locale features.",
   "main": "paper-input-money.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^2.0.0"
+    "polymer": "Polymer/polymer#^2.0.0",
+    "paper-input": "PolymerElements/paper-input#^2.0.0"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
