@@ -56,7 +56,7 @@ The input mask is applied during the "blur" event on the input.
 
             ready() {
                 super.ready();
-                this.setProperties({ 'allowedPattern': '[0-9\.\,\=]', 'value': '0.00' });
+                this.setProperties({ 'allowedPattern': '[0-9\.\,\=\-]', 'value': '0.00' });
                 this.onblur = this.handleOnFocusOut;
             }
 
