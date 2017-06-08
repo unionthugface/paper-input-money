@@ -13,6 +13,7 @@ First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polyme
 <custom-element-demo>
   <template>
     <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+	<link rel="import" href="../paper-input/paper-input.html">
     <link rel="import" href="paper-input-money.html">
     <style>
       paper-input-money {
