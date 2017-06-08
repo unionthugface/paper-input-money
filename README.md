@@ -15,7 +15,7 @@ First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polyme
     <script src="../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="paper-input-money.html">
     <style>
-      paper-input {
+      paper-input-money {
         max-width: 400px;
         margin: auto;
       }
