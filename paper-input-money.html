@@ -64,7 +64,7 @@ The input mask is applied during the "blur" event on the input.
                 if (typeof this.value === 'undefined' || this.value == null) {
                     this.set('value', '0.00');
                 }
-                let computedValue = parseFloat(this.value);
+                let computedValue = parseFloat(this.value.replace(',',''));
                 this.setProperties({ 'value': computedValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }), 'currencyValue': computedValue });
             }
         }
