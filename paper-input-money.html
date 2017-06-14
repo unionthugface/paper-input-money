@@ -1,19 +1,17 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html" />
-
 <!--
 `<paper-input-money>` is a single-line text field with Material Design styling.  It extends the Polymer 2 element `<paper-input>`.
 
     <paper-input-money label="Input label"
-					   always-float-label
-					   required
-					   currency-value="{{currValue}}"></paper-input>
+                       always-float-label
+                       required
+                       currency-value="{{currValue}}"></paper-input>
 
 The prefix and pattern are predetermined (only USD for right now).  To get the numeric value of the input, bind to the custom `currencyValue` property.  (The `value` field from the PaperInput superclass will always be of type String.)
 
 The input mask is applied during the "blur" event on the input.
 -->
-
 <dom-module id="paper-input-money">
     <template>
         <style>
@@ -49,7 +47,12 @@ The input mask is applied during the "blur" event on the input.
                 return {
                     'currencyValue': {
                         type: Number,
-                        notify: true
+                        notify: true,
+                        observer: 'onCurrencyValueChanged'
+                    },
+                    'parsedValue': {
+                        type: Number,
+                        computed: 'computeParsedValue(value)'
                     }
                 }
             }
@@ -60,12 +63,21 @@ The input mask is applied during the "blur" event on the input.
                 this.onblur = this.handleOnFocusOut;
             }
 
+            onCurrencyValueChanged(newValue) {
+                if (newValue != this.parsedValue) {
+                    this.set('value', newValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+                }
+            }
+
+            computeParsedValue(value) {
+                return parseFloat(value.replace(',', ''));
+            }
+
             handleOnFocusOut(e) {
                 if (typeof this.value === 'undefined' || this.value == null) {
                     this.set('value', '0.00');
                 }
-                let computedValue = parseFloat(this.value.replace(',',''));
-                this.setProperties({ 'value': computedValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }), 'currencyValue': computedValue });
+                this.setProperties({ 'value': this.parsedValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }), 'currencyValue': this.parsedValue });
             }
         }
 
