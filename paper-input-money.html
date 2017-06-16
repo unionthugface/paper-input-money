@@ -60,7 +60,11 @@ The input mask is applied during the "blur" event on the input.
             ready() {
                 super.ready();
                 this.setProperties({ 'allowedPattern': '[0-9\.\,\=\-]', 'value': '0.00' });
-                this.addEventListener('focused-changed', e => this.handleOnFocusOut(e));
+            }
+
+            _focusBlurHandler(evt) {
+                super._focusBlurHandler(evt);
+                this.handleOnFocusOut(evt);
             }
 
             onCurrencyValueChanged(newValue) {
