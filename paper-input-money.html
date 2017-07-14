@@ -52,7 +52,8 @@ The input mask is applied during the "blur" event on the input.
                     },
                     'parsedValue': {
                         type: Number,
-                        computed: 'computeParsedValue(value)'
+                        computed: 'computeParsedValue(value)',
+                        notify: true
                     }
                 }
             }
@@ -64,7 +65,8 @@ The input mask is applied during the "blur" event on the input.
 
             _focusBlurHandler(evt) {
                 super._focusBlurHandler(evt);
-                this.handleOnFocusOut(evt);
+                if (!this.focused)
+                    this.handleOnFocusOut(evt);
             }
 
             onCurrencyValueChanged(newValue) {
@@ -74,14 +76,16 @@ The input mask is applied during the "blur" event on the input.
             }
 
             computeParsedValue(value) {
-                return parseFloat(value.replace(',', ''));
+                return parseFloat(value.replace(/,/g, ''));
             }
 
             handleOnFocusOut(e) {
                 if (typeof this.value === 'undefined' || this.value == null) {
                     this.set('value', '0.00');
                 }
-                this.setProperties({ 'value': this.parsedValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }), 'currencyValue': this.parsedValue });
+                var parsedValue = parseFloat(this.value.replace(/,/g, ''));
+
+                this.setProperties({ 'value': parsedValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }), 'currencyValue': parsedValue });
             }
         }
 
