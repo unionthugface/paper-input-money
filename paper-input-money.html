@@ -65,6 +65,11 @@ The input mask is applied during the "blur" event on the input.
 
             _focusBlurHandler(evt) {
                 super._focusBlurHandler(evt);
+
+                if (this.focused && !this._shiftTabPressed && this._focusableElement && this._focusableElement.select) {
+                    this._focusableElement.select();
+                }
+
                 if (!this.focused)
                     this.handleOnFocusOut(evt);
             }
