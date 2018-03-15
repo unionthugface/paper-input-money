@@ -31,6 +31,6 @@ First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polyme
 <paper-input-money label="Input label"
 				   always-float-label
 				   required
-				   value="2454"></paper-input>
+				   value="2454"></paper-input-money>
 </div>
 ```
