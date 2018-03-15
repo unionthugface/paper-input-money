@@ -54,13 +54,16 @@ The input mask is applied during the "blur" event on the input.
                         type: Number,
                         computed: 'computeParsedValue(value)',
                         notify: true
+                    },
+                    'allowedPattern': {
+                        type: String,
+                        value: () => '[0-9\.\,\=\-]'
+                    },
+                    'value': {
+                        type: String,
+                        value: () => '0.00'
                     }
                 }
-            }
-
-            ready() {
-                super.ready();
-                this.setProperties({ 'allowedPattern': '[0-9\.\,\=\-]', 'value': '0.00' });
             }
 
             _focusBlurHandler(evt) {
